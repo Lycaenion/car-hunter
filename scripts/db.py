@@ -1,18 +1,19 @@
 import sqlite3
 
 from sqlalchemy import (
-    BigInteger, Integer, String, Float, ForeignKey, create_engine,
+    BigInteger, Integer, String, Float, ForeignKey, create_engine, Date,
 )
 from sqlalchemy.orm import (
     DeclarativeBase, Mapped, MappedAsDataclass, mapped_column, relationship, Session
 )
+import datetime
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
     """subclasses will be converted to dataclasses"""
 
 
-class Advertisement(Base):
+class Advertisements(Base):
     __tablename__ = "Advertisements"
     __table_args__ = {'sqlite_autoincrement': True}
 
@@ -23,6 +24,7 @@ class Advertisement(Base):
     automatic: Mapped[int] = mapped_column(Integer, default=None, nullable=True)
     year: Mapped[int] = mapped_column(Integer, default=None, comment='production year', nullable=True)
     kms: Mapped[int] = mapped_column(Integer, default=None, nullable=True)
+    date: Mapped[Date] = mapped_column(Date, default=None, nullable=False)
     price: Mapped[float] = mapped_column(Float, default=None, nullable=True)
 
 
@@ -34,6 +36,6 @@ if __name__ == "__main__":
 
     with Session(engine) as session:
         for i, url in enumerate(["kvak.com", "wooof.con", "miau.net"]):
-            advertisement = Advertisement(url=url, price=(i+1)*10000.3)
+            advertisement = Advertisements(url=url, price=(i+1)*10000.3, date=datetime.date.today())
             session.add(advertisement)
         session.commit()
