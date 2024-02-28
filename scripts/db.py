@@ -23,7 +23,7 @@ class Advertisements(Base):
     model: Mapped[str] = mapped_column(String(30), default=None, nullable=True)
     automatic: Mapped[int] = mapped_column(Integer, default=None, nullable=True)
     year: Mapped[int] = mapped_column(Integer, default=None, comment='production year', nullable=True)
-    kms: Mapped[int] = mapped_column(Integer, default=None, nullable=True)
+    kms: Mapped[int] = mapped_column(Integer, default=None, comment='date added to bazos', nullable=True)
     date: Mapped[Date] = mapped_column(Date, default=None, nullable=False)
     price: Mapped[float] = mapped_column(Float, default=None, nullable=True)
 
