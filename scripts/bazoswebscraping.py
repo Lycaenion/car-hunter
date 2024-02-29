@@ -20,11 +20,10 @@ for ad in ads:
     short_description = ad.find_element(By.CLASS_NAME, "popis").text
     title = ad.find_element(By.CLASS_NAME, 'inzeratynadpis').find_element(By.CLASS_NAME, "nadpis").text
     short_description = ad.find_element(By.CLASS_NAME, "popis").text
+
     ad.find_element(By.LINK_TEXT, title).click()
 
     long_description = driver.find_element(By.CLASS_NAME, "popisdetail").text
-
-    #time.sleep(5)
 
     driver.back()
 
