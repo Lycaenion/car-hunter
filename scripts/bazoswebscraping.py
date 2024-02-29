@@ -14,6 +14,19 @@ for ad in ads:
 
     link = ad.find_element(By.CLASS_NAME, 'inzeratynadpis').find_element(By.TAG_NAME, 'a').get_attribute("href")
     price = ad.find_element(By.CLASS_NAME, "inzeratycena").find_element(By.TAG_NAME, "b").text
-    description = ad.find_element(By.CLASS_NAME, "popis").text
+    short_description = ad.find_element(By.CLASS_NAME, "popis").text
+    title = ad.find_element(By.CLASS_NAME, 'inzeratynadpis').find_element(By.CLASS_NAME, "nadpis").text
+    short_description = ad.find_element(By.CLASS_NAME, "popis").text
+    ad.find_element(By.LINK_TEXT, title).click()
 
-    print(f'{link} {price} {description}')
+    long_description = driver.find_element(By.CLASS_NAME, "popisdetail").text
+
+    #time.sleep(5)
+
+    driver.back()
+
+    #Give the program time to reload all the elements before starting the next one
+    time.sleep(2)
+
+
+    print(f'title {title} link {link} price {price} long description {long_description}')
