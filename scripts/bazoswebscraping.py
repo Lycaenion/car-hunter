@@ -7,7 +7,6 @@ driver = webdriver.Chrome()
 
 driver.get("https://auto.bazos.sk/ford/?hledat=galaxy&rubriky=auto&hlokalita=97411&humkreis=300&cenaod=&cenado=&order=&crp=&kitx=ano")
 
-
 ads = driver.find_elements(By.CSS_SELECTOR, 'div.inzeraty.inzeratyflex')
 
 for ad in ads:
