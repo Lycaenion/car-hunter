@@ -162,3 +162,7 @@ cython_debug/
 pathtodriver.txt
 
 db.sqlite
+emails.txt
+
+*.apps.googleusercontent.com.json
+scripts/credentials.json

@@ -39,3 +39,4 @@ if __name__ == "__main__":
             advertisement = Advertisements(url=url, price=(i+1)*10000.3, date=datetime.date.today())
             session.add(advertisement)
         session.commit()
+
