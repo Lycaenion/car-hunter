@@ -3,6 +3,7 @@ import time
 from selenium.webdriver.common.by import By
 import selenium
 import re
+import db
 
 driver = webdriver.Chrome()
 
@@ -15,6 +16,11 @@ YEAR_PATTERN = re.compile(r'(?sm).*?(?P<year>\b20[12]\d\b)')
 for ad in ads:
 
     link = ad.find_element(By.CLASS_NAME, 'inzeratynadpis').find_element(By.TAG_NAME, 'a').get_attribute("href")
+
+    if db.is_ad_in_db(link) is not True:
+        print("The ad is not in the db")
+
+
     price = ad.find_element(By.CLASS_NAME, "inzeratycena").find_element(By.TAG_NAME, "b").text
     short_description = ad.find_element(By.CLASS_NAME, "popis").text
     title = ad.find_element(By.CLASS_NAME, 'inzeratynadpis').find_element(By.CLASS_NAME, "nadpis").text
