@@ -1,7 +1,7 @@
 import sqlite3
 
 from sqlalchemy import (
-    BigInteger, Integer, String, Float, ForeignKey, create_engine, Date,
+    BigInteger, Integer, String, Float, ForeignKey, create_engine, Date, select,
 )
 from sqlalchemy.orm import (
     DeclarativeBase, Mapped, MappedAsDataclass, mapped_column, relationship, Session
@@ -28,15 +28,28 @@ class Advertisements(Base):
     price: Mapped[float] = mapped_column(Float, default=None, nullable=True)
 
 
-if __name__ == "__main__":
+SQLALCHEMY_URI = 'sqlite:///db.sqlite'
+engine = create_engine(SQLALCHEMY_URI, echo=True, echo_pool="debug")
+Base.metadata.create_all(engine)
 
-    SQLALCHEMY_URI = 'sqlite:///db.sqlite'
-    engine = create_engine(SQLALCHEMY_URI, echo=True, echo_pool="debug")
-    Base.metadata.create_all(engine)
+
+def add_ad_to_db(url, price):
+
 
     with Session(engine) as session:
-        for i, url in enumerate(["kvak.com", "wooof.con", "miau.net"]):
-            advertisement = Advertisements(url=url, price=(i+1)*10000.3, date=datetime.date.today())
-            session.add(advertisement)
+
+        advertisement = Advertisements(url, price, date=datetime.date.today())
+        session.add(advertisement)
         session.commit()
 
+def is_ad_in_db(url):
+    with Session(engine) as session:
+        stmt = select(Advertisements).where(Advertisements.url == url)
+        result = session.execute(stmt).scalar()
+
+        if result is None:
+            print(False)
+            return False
+        else:
+            print(True)
+            return True
