@@ -53,13 +53,3 @@ def is_ad_in_db(url):
         else:
             print(True)
             return True
-
-
-
-
-
-if __name__ == "__main__":
-
-    is_ad_in_db('kvakkkkkkk.com')
-
-
