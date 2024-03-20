@@ -16,18 +16,18 @@ SCOPES = [
 flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
 creds = flow.run_local_server(port=0)
 
-subject = "Test email"
+#subject = "Test email"
 body = "This is the body of an email sent via a python script created by Linn"
 with open('emails.txt') as f:
-    recipient = f.readline().strip('\n')
+    recipients = f.read().splitlines()
     f.close()
 
-def sendemail(subject, body, recipient):
+def sendemail(body):
 
     service = build('gmail', 'v1', credentials=creds)
     msg = MIMEText(body)
-    msg['Subject'] = subject
-    msg['To'] = recipient
+    msg['Subject'] = "This is a test email"
+    msg['To'] = ", ".join(recipients)
     create_message = {'raw': base64.urlsafe_b64encode(msg.as_bytes()).decode()}
 
     try:
@@ -37,5 +37,5 @@ def sendemail(subject, body, recipient):
         print(F'An error occured: {error}')
 
 
-sendemail(subject, body, recipient)
+#sendemail(body)
 
