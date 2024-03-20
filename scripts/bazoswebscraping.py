@@ -6,22 +6,25 @@ import re
 import db
 import emailsender
 
-def find_cars():
+def find_cars(url):
 
     link_list = []
     email_body = ""
     driver = webdriver.Chrome()
+    bazos_url = url
 
-    driver.get(
-        "https://auto.bazos.sk/ford/?hledat=galaxy&rubriky=auto&hlokalita=97411&humkreis=300&cenaod=&cenado=&order=&crp=&kitx=ano")
-
+    driver.get(bazos_url)
     ads = driver.find_elements(By.CSS_SELECTOR, 'div.inzeraty.inzeratyflex')
     YEAR_PATTERN = re.compile(r'(?sm).*?(?P<year>\b20[12]\d\b)')
+    car_model = ""
 
     for ad in ads:
 
         link = ad.find_element(By.CLASS_NAME, 'inzeratynadpis').find_element(By.TAG_NAME, 'a').get_attribute("href")
         print("Link " + link)
+        if "galaxy" in bazos_url:
+            car_brand = "Ford"
+            car_model = "Galaxy"
 
         if db.is_ad_in_db(link) is False:
                 print("The ad is not in the db")
@@ -39,7 +42,7 @@ def find_cars():
                     if match:
                         year = match.group('year')
                         #print(f'title {title} year {year} link {link} price {price} long description {long_description}')
-                        db.add_ad_to_db(link, converted_price)
+                        db.add_ad_to_db(link, converted_price, car_brand, car_model)
                         link_list.append(link)
 
         else:
@@ -57,16 +60,7 @@ def find_cars():
         for link in link_list:
             email_body = email_body + link + '\n'
 
-    emailsender.sendemail(email_body)
-
-
-
-
-
-
-
-
-
+    #emailsender.sendemail(email_body)
 
 if __name__ == "__main__":
-    find_cars()
+    find_cars("https://auto.bazos.sk/ford/?hledat=galaxy&rubriky=auto&hlokalita=97411&humkreis=300&cenaod=&cenado=&order=&crp=&kitx=ano")

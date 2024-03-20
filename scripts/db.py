@@ -33,9 +33,9 @@ Base.metadata.create_all(engine)
 
 
 
-def add_ad_to_db(url, price):
+def add_ad_to_db(url, price, car_brand, car_model):
     with Session(engine) as session:
-        advertisement = Advertisements(url, price=price, date=datetime.date.today())
+        advertisement = Advertisements(url, price=price, date=datetime.date.today(), brand = car_brand, model = car_model)
         session.add(advertisement)
         session.commit()
         print("added")
