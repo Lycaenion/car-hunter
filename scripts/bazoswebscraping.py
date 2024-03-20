@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 import selenium
 import re
 import db
+import emailsender
 
 def find_cars():
 
@@ -50,10 +51,17 @@ def find_cars():
         #Give the program time to reload all the elements before starting the next one
         time.sleep(2)
 
-    for link in link_list:
-        email_body = email_body + link + '\n'
+    if len(link_list) == 0:
+        email_body = "No new ads to view"
+    else:
+        for link in link_list:
+            email_body = email_body + link + '\n'
 
-    print(email_body)
+    emailsender.sendemail(email_body)
+
+
+
+
 
 
 
